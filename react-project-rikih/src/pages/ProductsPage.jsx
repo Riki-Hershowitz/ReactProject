@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
-import ProductSubmission from "../components/ProductSubmission";
 import GlassesOverlay from "../components/GlassesOverlay";
+import ProductCard from "../components/ProductCard";
+
 
 const ProductsPage = () => {
     const products = useSelector((state) => state.products.products);
@@ -54,7 +55,7 @@ const ProductsPage = () => {
                 {Array.isArray(displayedProducts) && displayedProducts.length > 0 ? (
                     displayedProducts.map((product) => (
                         <div className="col-md-4 mb-4" key={product.id}>
-                            <ProductSubmission product={product} />
+                            <ProductCard product={product} context="store" />
                         </div>
                     ))
                 ) : (

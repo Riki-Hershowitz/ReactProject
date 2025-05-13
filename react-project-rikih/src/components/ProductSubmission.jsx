@@ -7,6 +7,21 @@ import { setSelectedGlasses } from "../redux/slices/glassesSlice";
 
 const ProductSubmission = ({ product, onSelectGlasses }) => {
   const [showModal, setShowModal] = useState(false);
+    const healthFund = useSelector((state) => state.Users.currentUser.healthFund);
+    console.log("קופת החולים של המשתמש:", healthFund); // לוג לבדיקת קופת החולים
+
+
+    let price = product.price;
+    
+        if (healthFund === "Clalit") {
+            price= product.clalit;
+        } else if (healthFund === "Maccabi") {
+            price= product.maccabi;
+        } else if (healthFund === "Meuhedet") {
+            price= product.meuhedet;
+        } else if (healthFund === "Leumit") {
+            price= product.leumit;
+        }
 
   const handleImageClick = (e) => {
     e.stopPropagation(); // Prevent triggering the card click event
@@ -46,6 +61,7 @@ const imageContainerStyle = {
     padding: "10px", // Add padding around the image
     boxSizing: "border-box", // Ensure padding doesn't affect the dimensions
 };
+
 return (
     <>
         <div
@@ -65,7 +81,26 @@ return (
             <div className="card-body">
                 <h5 className="card-title">{product.name}</h5>
                 <p className="card-text">{product.description}</p>
+                { healthFund !== "none" ? (
+                <>
+                    <p
+                    className="card-text"
+                    style={{
+                        textDecoration: "line-through",
+                        color: "red",
+                        fontStyle: "italic",
+                    }}
+                    >
+                    {product.price} ₪
+                    </p>
+                    <p className="card-text fw-bold text-success">
+                    {price} ₪ <small className="text-muted">({healthFund})</small>
+                    </p>
+                </>
+                ) : (
                 <p className="card-text">{product.price} ₪</p>
+                )}
+
             </div>
         </div>
 
@@ -82,10 +117,10 @@ return (
                 />
                 <p>{product.description}</p>
                 <p>מחיר: {product.price} ₪</p>
-                <p>מחיר עבור חברי כללית: {product.price - 10} ₪</p>
-                <p>מחיר עבור חברי מכבי: {product.price - 20} ₪</p>
-                <p>מחיר עבור חברי מאוחדת: {product.price - 30} ₪</p>
-                <p>לאומית: {product.price - 40} ₪</p>
+                <p>מחיר עבור חברי כללית: {product.clalit} ₪</p>
+                <p>מחיר עבור חברי מכבי: {product.maccabi} ₪</p>
+                <p>מחיר עבור חברי מאוחדת: {product.meuhedet} ₪</p>
+                <p>לאומית: {product.leumit} ₪</p>
             </Modal.Body>
             
             <Modal.Footer>

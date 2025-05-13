@@ -38,9 +38,8 @@ const HomePage = () => {
         >
           <h1 className="display-4 fw-bold">ברוכים הבאים ל-VisionPro</h1>
           <p className="lead">התאמה חכמה של משקפיים לפי מראה הפנים שלך</p>
-          <button className="btn btn-primary mt-3" onClick={() => window.location.href = '/products'}>
-            לעיון בקולקציה
-          </button>
+          <p className="lead">נסו את משקפי VisionPro בעזרת טכנולוגיית AR מתקדמת</p>
+          
         </motion.div>
 
         <motion.div

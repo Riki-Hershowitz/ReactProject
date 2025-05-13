@@ -1,65 +1,52 @@
 import React from "react";
-import { useSelector , useDispatch } from "react-redux";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { logout } from "../redux/slices/usersSlice"; // Import the logout action
-
-
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../redux/slices/usersSlice";
+import { LogOut } from "lucide-react";
 
 const User = () => {
-    const currentUser = useSelector((state) => state.Users.currentUser); // Get currentUser from Redux
-
-    const dispatch = useDispatch(); // Initialize useDispatch
-
-    const handleMouseEnter = (e) => {
-        const button = e.currentTarget.querySelector(".logout-button");
-        if (button) {
-            button.style.display = "block";
-        }
-    };
-
-    const handleMouseLeave = (e) => {
-        const button = e.currentTarget.querySelector(".logout-button");
-        if (button) {
-            button.style.display = "none";
-        }
-    };
+    const currentUser = useSelector((state) => state.Users.currentUser);
+    const dispatch = useDispatch();
 
     return (
-        <div className="container mt-5">
-            {currentUser ? (
-                <div
-                    style={{ position: "relative", display: "inline-block" }}
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
-                >
-                    <h2
-                        style={{ display: "inline-block", marginRight: "10px" }}
-                        title="לחץ להתנתקות"
-                    >
-                        🤩 {currentUser}
-                    </h2>
-                    <button
+        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+            {currentUser && currentUser.username ? (
+                <>
+                    <span
                         style={{
-                            position: "absolute",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            right: "-80px",
-                            display: "none",
-                            backgroundColor: "#dc3545",
-                            color: "white",
-                            border: "none",
-                            padding: "5px 10px",
-                            borderRadius: "5px",
-                            cursor: "pointer",
+                            color: "#4CAF50", // ירוק עדין
+                            fontFamily: "Helvetica Neue, sans-serif",
+                            fontWeight: "300",
+                            fontSize: "16px",
                         }}
-                        className="logout-button"
-                        onClick={() => dispatch(logout())}
+                        title="משתמש מחובר"
                     >
+                        {currentUser.username}
+                    </span>
+                    <button
+                        onClick={() => dispatch(logout())}
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "6px",
+                            backgroundColor: "#f2f2f2",
+                            color: "#333",
+                            border: "1px solid #ccc",
+                            borderRadius: "20px",
+                            padding: "5px 12px",
+                            fontSize: "14px",
+                            fontFamily: "inherit",
+                            cursor: "pointer",
+                            transition: "background-color 0.3s ease",
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#e0e0e0"}
+                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "#f2f2f2"}
+                    >
+                        <LogOut size={16} />
                         התנתקות
                     </button>
-                </div>
+                </>
             ) : (
-                <h2>🤔 משתמש לא מחובר</h2>
+                <span style={{ color: "#aaa" }}>משתמש לא מחובר</span>
             )}
         </div>
     );

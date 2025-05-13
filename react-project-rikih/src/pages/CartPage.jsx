@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Product from "../components/Product";
+import ProductCard from "../components/ProductCard";
 
 const CartPage = () => {
     const cartItems = useSelector((state) => state.cart.items); // Get cart items from Redux
@@ -19,7 +20,7 @@ const CartPage = () => {
                 {Array.isArray(cartItems) && cartItems.length > 0 ? (
                     cartItems.map((product) => (
                         <div key={product.id} className="col-md-4 mb-4 text-center">
-                            <Product product={product} />
+                            <ProductCard product={product} context="cart" />
                         </div>
                     ))
                 ) : (

@@ -25,26 +25,26 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
         addItem(state, action) {
-            const { item } = action.payload; // Get the item from the payload
+            const { item , price } = action.payload; // Get the item from the payload
         
             // Check if the item already exists in the cart
             const existingItem = state.items.find(i => i.id === item.id);
             if (existingItem) {
                 // If the item exists, update its quantity and total price
                 existingItem.quantity += 1;
-                existingItem.totalPrice += item.price;
+                existingItem.totalPrice += price;
             } else {
                 // If the item does not exist, add it to the cart
                 state.items.push({
                     ...item,
                     quantity: 1, // Initialize quantity to 1
-                    totalPrice: item.price, // Initialize total price
+                    totalPrice: price, // Initialize total price
                 });
             }
         
             // Update the total quantity and total price of the cart
             state.totalQuantity += 1;
-            state.totalPrice += item.price;
+            state.totalPrice += price;
         
             // Save the updated cart to localStorage
             localStorage.setItem('cart', JSON.stringify(state));
@@ -72,7 +72,7 @@ const cartSlice = createSlice({
             localStorage.removeItem(`cart_${userId}`);
         },
         updateQuantity(state, action) {
-            const { id, quantity } = action.payload;
+            const { id, quantity ,price } = action.payload;
             const existingItem = state.items.find(item => item.id === id);
 
             if (existingItem) {
@@ -82,7 +82,7 @@ const cartSlice = createSlice({
                 } else {
                     // עדכון הכמות והמחיר
                     existingItem.quantity = quantity;
-                    existingItem.totalPrice = existingItem.price * quantity;
+                    existingItem.totalPrice = price * quantity;
                 }
 
                 // עדכון הסכומים הכוללים

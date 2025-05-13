@@ -13,13 +13,19 @@ const Login = () => {
         const email = document.getElementById("registerEmail").value; // Get email
         const password = document.getElementById("registerPassword").value; // Get password
         const confirmPassword = document.getElementById("confirmPassword").value; // Get confirm password
+        let healthFund = document.getElementById("healthFund").value; // Get health fund
 
         if (password !== confirmPassword) {
             alert("הסיסמאות אינן תואמות");
             return;
         }
 
-        dispatch(register({ username: name, email, password })); // Dispatch the register action
+        // אם הערך של healthFund הוא "none", נגדיר אותו כ-"ללא"
+        if (healthFund === "none") {
+            healthFund = "ללא";
+        }
+
+        dispatch(register({ username: name, email, password, healthFund })); // Dispatch the register action
     };
 
     return (
@@ -44,6 +50,16 @@ const Login = () => {
                             <div className="mb-3">
                                 <label htmlFor="confirmPassword" className="form-label">אישור סיסמה</label>
                                 <input type="password" className="form-control" id="confirmPassword" required />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="healthFund" className="form-label">בחר קופת חולים</label>
+                                    <select className="form-select" id="healthFund" required>
+                                        <option value="none">ללא</option>
+                                        <option value="Clalit">כללית</option>
+                                        <option value="Maccabi">מכבי</option>
+                                        <option value="Meuhedet">מאוחדת</option>
+                                        <option value="Leumit">לאומית</option>
+                                    </select>
                             </div>
                             <button type="submit" className="btn btn-primary">הרשם</button>
                         </form>
