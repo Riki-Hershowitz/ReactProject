@@ -1,0 +1,40 @@
+.homepage-container {
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .comparison-image-wrapper {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    overflow: hidden;
+    --clip-width: 50%;
+    cursor: ew-resize;
+  }
+  
+  .comparison-image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    top: 0;
+    left: 0;
+    user-select: none;
+  }
+  
+  .comparison-image.clipped {
+    clip-path: inset(0 0 0 var(--clip-width));
+    z-index: 2;
+  }
+  
+  .divider-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--clip-width);
+    width: 2px;
+    background-color: #f1d77a;
+    z-index: 3;
+    transition: left 0.2s ease-out;
+    pointer-events: none;
+  }
+  

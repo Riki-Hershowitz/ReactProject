@@ -4,10 +4,10 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import HomePage from './pages/HomePage';
-import GlassesOverlay from './components/GlassesOverlay';
 import ProductsPage from './pages/ProductsPage';
 import CheckoutPage from './pages/CheckoutPage';
 import CartPage from './pages/CartPage';
+import LoginPage from './pages/LoginPage';
 import Header from "./components/Header";
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -23,6 +23,7 @@ function App() {
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/Cart" element={<CartPage />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
         <Footer />
       </BrowserRouter>

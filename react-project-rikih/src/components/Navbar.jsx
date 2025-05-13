@@ -1,27 +1,76 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { Link } from 'react-router-dom'; 
+import { useSelector , useDispatch } from "react-redux";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { logout } from "../redux/slices/usersSlice"; 
 
 const Navbar = () => {
+    const currentUser = useSelector((state) => state.Users.currentUser); 
+    const dispatch = useDispatch(); 
+
+    const handleMouseEnter = (e) => {
+        const button = e.currentTarget.querySelector(".logout-button");
+        if (button) {
+            button.style.display = "block";
+        }
+    };
+
+    const handleMouseLeave = (e) => {
+        const button = e.currentTarget.querySelector(".logout-button");
+        if (button) {
+            button.style.display = "none";
+        }
+    };
+
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <nav className="navbar navbar-expand-lg navbar-light" style={{ backgroundColor: "#A9D8FF" }}>
             <div className="container-fluid">
-                <Link className="navbar-brand" to="/">VisionPro</Link> {/* Use Link for navigation */}
-                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon"></span>
-                </button>
+                {currentUser ? (
+                    <div
+                        style={{ position: "relative", display: "inline-block" }}
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}
+                    >
+                        <h4
+                            style={{ display: "inline-block", marginRight: "10px", color: "#4CAF50" }}
+                            title="לחץ להתנתקות">{currentUser}</h4>
+                        <button
+                            style={{
+                                position: "absolute",
+                                top: "50%",
+                                transform: "translateY(-50%)",
+                                right: "-80px",
+                                display: "none",
+                                backgroundColor: "#FFCA28", // צבע חרדל
+                                color: "white",
+                                border: "none",
+                                padding: "5px 10px",
+                                borderRadius: "5px",
+                                cursor: "pointer",
+                            }}
+                            className="logout-button"
+                            onClick={() => dispatch(logout())}
+                        >
+                            התנתקות
+                        </button>
+                    </div>
+                ) : (
+                    <h4 style={{ color: "#FFCA28" }}>משתמש לא מחובר</h4> // צבע חרדל למידע על המשתמש
+                )}
+
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav ms-auto">
                         <li className="nav-item">
-                            <Link className="nav-link active" aria-current="page" to="/">בית</Link> {/* Link to Home */}
+                            <Link className="nav-link" to="/Cart" style={{ color: "#4CAF50" }}>🛒</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/products">מוצרים</Link> {/* Link to Products */}
+                            <Link className="nav-link" to="/products" style={{ color: "#4CAF50" }}>מוצרים</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/about">אודות</Link> {/* Example for About */}
+                            <Link className="nav-link" to="/login" style={{ color: "#4CAF50" }}>התחברות</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/Cart">🛒</Link> {/* Example for Contact */}
+                            <Link className="nav-link active" aria-current="page" to="/" style={{ color: "#4CAF50" }}>בית</Link>
                         </li>
                     </ul>
                 </div>

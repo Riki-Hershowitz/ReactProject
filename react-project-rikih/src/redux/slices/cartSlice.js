@@ -1,47 +1,98 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
-    items: [], // Array to hold cart items
-    totalQuantity: 0, // Total number of items in the cart
-    totalPrice: 0, // Total price of items in the cart
+const loadCartFromLocalStorage = (userId) => {
+    if (!userId) return { items: [], totalQuantity: 0, totalPrice: 0 }; // Default state if userId is not provided
+
+    try {
+        if (typeof localStorage === 'undefined') {
+            console.warn('localStorage is not available.');
+            return { items: [], totalQuantity: 0, totalPrice: 0 };
+        }
+
+        const savedCart = localStorage.getItem(`cart_${userId}`);
+        return savedCart ? JSON.parse(savedCart) : { items: [], totalQuantity: 0, totalPrice: 0 };
+    } catch (error) {
+        console.error('Error loading cart from localStorage:', error);
+        return { items: [], totalQuantity: 0, totalPrice: 0 };
+    }
 };
+
+// Initial state (userId will be dynamically passed)
+const initialState = { items: [], totalQuantity: 0, totalPrice: 0 };
 
 const cartSlice = createSlice({
     name: 'cart',
     initialState,
     reducers: {
         addItem(state, action) {
-            const newItem = action.payload;
-            const existingItem = state.items.find(item => item.id === newItem.id);
+            const { item } = action.payload; // Get the item from the payload
+        
+            // Check if the item already exists in the cart
+            const existingItem = state.items.find(i => i.id === item.id);
             if (existingItem) {
-                existingItem.quantity += newItem.quantity;
-                existingItem.totalPrice += newItem.price * newItem.quantity;
+                // If the item exists, update its quantity and total price
+                existingItem.quantity += 1;
+                existingItem.totalPrice += item.price;
             } else {
+                // If the item does not exist, add it to the cart
                 state.items.push({
-                    ...newItem,
-                    totalPrice: newItem.price * newItem.quantity,
+                    ...item,
+                    quantity: 1, // Initialize quantity to 1
+                    totalPrice: item.price, // Initialize total price
                 });
             }
-            state.totalQuantity += newItem.quantity;
-            state.totalPrice += newItem.price * newItem.quantity;
+        
+            // Update the total quantity and total price of the cart
+            state.totalQuantity += 1;
+            state.totalPrice += item.price;
+        
+            // Save the updated cart to localStorage
+            localStorage.setItem('cart', JSON.stringify(state));
+            alert(`המוצר ${item.name} נוסף לעגלה!`); // Notify the user
         },
         removeItem(state, action) {
-            const id = action.payload;
+            const { userId, id } = action.payload; // Get userId and item id from payload
             const existingItem = state.items.find(item => item.id === id);
             if (existingItem) {
                 state.totalQuantity -= existingItem.quantity;
                 state.totalPrice -= existingItem.totalPrice;
                 state.items = state.items.filter(item => item.id !== id);
+
+                // Save updated cart to localStorage
+                localStorage.setItem(`cart_${userId}`, JSON.stringify(state));
             }
         },
-        clearCart(state) {
+        clearCart(state, action) {
+            const { userId } = action.payload; // Get userId from payload
             state.items = [];
             state.totalQuantity = 0;
             state.totalPrice = 0;
+
+            // Clear cart from localStorage
+            localStorage.removeItem(`cart_${userId}`);
         },
+        updateQuantity(state, action) {
+            const { id, quantity } = action.payload;
+            const existingItem = state.items.find(item => item.id === id);
+
+            if (existingItem) {
+                if (quantity <= 0) {
+                    // אם הכמות היא 0 או פחות, הסר את המוצר
+                    state.items = state.items.filter(item => item.id !== id);
+                } else {
+                    // עדכון הכמות והמחיר
+                    existingItem.quantity = quantity;
+                    existingItem.totalPrice = existingItem.price * quantity;
+                }
+
+                // עדכון הסכומים הכוללים
+                state.totalPrice = state.items.reduce((total, item) => total + item.totalPrice, 0);
+                state.totalQuantity = state.items.reduce((total, item) => total + item.quantity, 0);
+            }
+        }
     },
 });
 
-export const { addItem, removeItem, clearCart } = cartSlice.actions;
+export const { addItem, removeItem, clearCart ,updateQuantity } = cartSlice.actions;
 
 export default cartSlice.reducer;
