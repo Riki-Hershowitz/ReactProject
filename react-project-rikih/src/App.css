@@ -36,3 +36,77 @@
     transform: rotate(360deg);
   }
 }
+
+/* הגדרות כלליות */
+html, body {
+    height: 100%; /* גובה מלא */
+    margin: 0;
+    padding: 0;
+}
+
+.main-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* גובה מינימלי של כל העמוד */
+}
+
+.content {
+    flex: 1; /* ממלא את כל השטח הפנוי */
+}
+
+footer {
+    background-color: rgb(246, 188, 100); /* צבע רקע לפוטר */
+    color: white; /* צבע טקסט */
+    text-align: center;
+    padding: 10px 0;
+    font-size: 14px;
+}
+
+/* עיצוב כפתורי סינון */
+.category-btn {
+    background-color: transparent;
+    color: #333;
+    font-weight: 500;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    position: relative;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.category-btn:hover,
+.category-btn:focus {
+    color: rgb(246, 188, 100);
+}
+
+.category-btn::after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 2px;
+    background-color: rgb(246, 188, 100);
+    transition: width 0.3s;
+    margin: 0 auto;
+}
+
+.category-btn:hover::after,
+.category-btn:focus::after {
+    width: 100%;
+}
+
+/* עיצוב כפתורי מיון */
+.sort-btn {
+    background-color: transparent;
+    color: #333;
+    font-size: 20px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.sort-btn:hover,
+.sort-btn:focus {
+    color: rgb(246, 188, 100);
+}

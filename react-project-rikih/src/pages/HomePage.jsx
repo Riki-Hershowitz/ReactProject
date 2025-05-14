@@ -36,9 +36,9 @@ const HomePage = () => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7 }}
         >
-          <h1 className="display-4 fw-bold">ברוכים הבאים ל-VisionPro</h1>
+          <h1 className="display-4 fw-bold">VisionPro - ברוכים הבאים ל</h1>
           <p className="lead">התאמה חכמה של משקפיים לפי מראה הפנים שלך</p>
-          <p className="lead">נסו את משקפי VisionPro בעזרת טכנולוגיית AR מתקדמת</p>
+          <p className="lead"> נסו את משקפי VisionPro בעזרת טכנולוגיית  AR מתקדמת</p>
           
         </motion.div>
 

@@ -16,18 +16,21 @@ function App() {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <Header />
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/products" element={<ProductsPage />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
-          <Route path="/Cart" element={<CartPage />} />
-          <Route path="/login" element={<LoginPage />} />
-        </Routes>
-        <Footer />
+        <div className="main-layout">
+          <Header />
+          <Navbar />
+          <div className="content">
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/products" element={<ProductsPage />} />
+              <Route path="/checkout" element={<CheckoutPage />} />
+              <Route path="/Cart" element={<CartPage />} />
+              <Route path="/login" element={<LoginPage />} />
+            </Routes>
+          </div>
+          <Footer />
+        </div>
       </BrowserRouter>
-
     </Provider>
   );
 }

@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
 import GlassesOverlay from "../components/GlassesOverlay";
 import ProductCard from "../components/ProductCard";
-
+import { FaSortAmountDown, FaSortAmountUp, FaTimes } from "react-icons/fa";
 
 const ProductsPage = () => {
     const products = useSelector((state) => state.products.products);
@@ -18,39 +18,75 @@ const ProductsPage = () => {
         setIsSorted(true);
     };
 
-    const filteredProducts = selectCategory === "all"
-        ? products
-        : products.filter((product) => product.category === selectCategory);
+    const filteredProducts =
+        selectCategory === "all"
+            ? products
+            : products.filter((product) => product.category === selectCategory);
 
     const displayedProducts = isSorted
         ? [...filteredProducts].sort((a, b) =>
-            sortingForm === "FromLowToHigh"
-                ? a.price - b.price
-                : b.price - a.price
-        )
+              sortingForm === "FromLowToHigh" ? a.price - b.price : b.price - a.price
+          )
         : filteredProducts;
 
     return (
         <div className="container mt-5">
             <GlassesOverlay />
 
-            <div className="mb-4">
-                <h2 className="mb-3">סינון לפי קטגוריה</h2>
-                <div className="btn-group mb-2" role="group">
-                    <button onClick={() => handleCategoryChange("men")} className="btn btn-outline-primary">גברים</button>
-                    <button onClick={() => handleCategoryChange("women")} className="btn btn-outline-primary">נשים</button>
-                    <button onClick={() => handleCategoryChange("kids")} className="btn btn-outline-primary">ילדים</button>
-                    <button onClick={() => handleCategoryChange("all")} className="btn btn-outline-secondary">מחק סינון</button>
+            {/* סינון ומיון */}
+            <div className="d-flex justify-content-between align-items-center mb-4">
+                {/* מיון */}
+                <div className="d-flex gap-3">
+                    <button
+                        onClick={handleDeleteSort}
+                        className="btn sort-btn"
+                    >
+                        <FaTimes />
+                    </button>
+                    <button
+                        onClick={() => handleSortOrder("FromLowToHigh")}
+                        className="btn sort-btn"
+                    >
+                        <FaSortAmountUp />
+                    </button>
+                    <button
+                        onClick={() => handleSortOrder("FromHighToLow")}
+                        className="btn sort-btn"
+                    >
+                        <FaSortAmountDown />
+                    </button>
                 </div>
 
-                <h2 className="mt-4 mb-3">מיון</h2>
-                <div className="btn-group" role="group">
-                    <button onClick={handleDeleteSort} className="btn btn-outline-secondary">מחק מיון</button>
-                    <button onClick={() => handleSortOrder("FromLowToHigh")} className="btn btn-outline-success">מהזול ליקר</button>
-                    <button onClick={() => handleSortOrder("FromHighToLow")} className="btn btn-outline-success">מהיקר לזול</button>
+                {/* סינון לפי קטגוריה */}
+                <div className="d-flex gap-3">
+                    <button
+                        onClick={() => handleCategoryChange("men")}
+                        className="btn category-btn"
+                    >
+                        גברים
+                    </button>
+                    <button
+                        onClick={() => handleCategoryChange("women")}
+                        className="btn category-btn"
+                    >
+                        נשים
+                    </button>
+                    <button
+                        onClick={() => handleCategoryChange("kids")}
+                        className="btn category-btn"
+                    >
+                        ילדים
+                    </button>
+                    <button
+                        onClick={() => handleCategoryChange("all")}
+                        className="btn category-btn"
+                    >
+                        <FaTimes />
+                    </button>
                 </div>
             </div>
 
+            {/* מוצרים */}
             <div className="row">
                 {Array.isArray(displayedProducts) && displayedProducts.length > 0 ? (
                     displayedProducts.map((product) => (
