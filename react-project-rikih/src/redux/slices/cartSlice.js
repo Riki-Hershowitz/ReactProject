@@ -63,13 +63,13 @@ const cartSlice = createSlice({
             }
         },
         clearCart(state, action) {
-            const { userId } = action.payload; // Get userId from payload
             state.items = [];
             state.totalQuantity = 0;
             state.totalPrice = 0;
-
-            // Clear cart from localStorage
-            localStorage.removeItem(`cart_${userId}`);
+        
+            // Save the cleared cart to localStorage
+            const userId = action.payload; // Assuming userId is passed in the action payload
+            localStorage.setItem(`cart_${userId}`, JSON.stringify(state));
         },
         updateQuantity(state, action) {
             const { id, quantity ,price } = action.payload;

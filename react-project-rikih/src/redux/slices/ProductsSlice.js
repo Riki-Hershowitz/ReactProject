@@ -5,6 +5,7 @@ import Img1 from '../../images/1.jpg'; // Import the image
 import Img2 from '../../images/2.png'; // Import the image
 import Img3 from '../../images/3.png'; // Import the image
 import Img4 from '../../images/4.png'; // Import the image
+import Img5 from '../../images/5.png';
 
 const initialState = {
     oneProduct: {

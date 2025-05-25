@@ -1,14 +1,19 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import {clearCart} from "../redux/slices/cartSlice";
 
 const CheckoutPage = () => {
     const [paymentSuccess, setPaymentSuccess] = useState(false);
     const totalPrice = useSelector((state) => state.cart.totalPrice); // סכום לתשלום מה-Redux Store
     const currentUser = useSelector((state) => state.Users.currentUser);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
+    const handleClearCart = () =>{
+        dispatch(clearCart(currentUser.id));
+    }
 
     useEffect(() => {
         if(totalPrice===0){
@@ -77,7 +82,7 @@ const CheckoutPage = () => {
                         <label htmlFor="cardHolderName" className="form-label">שם בעל הכרטיס</label>
                         <input type="text" className="form-control" id="cardHolderName" placeholder="שם מלא" required />
                     </div>
-                    <button type="submit" className="btn btn-primary w-100">שלם</button>
+                    <button onClick={handleClearCart} type="submit" className="btn btn-primary w-100">שלם</button>
                 </form>
             ) : (
                 <div className="alert alert-success mt-4 text-center" role="alert">

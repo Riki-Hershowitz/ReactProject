@@ -26,10 +26,10 @@ const GlassesOverlay = () => {
   const loadModels = async () => {
     try {
       await faceapi.nets.tinyFaceDetector.loadFromUri(
-        "https://cdn.jsdelivr.net/gh/justadudewhohacks/face-api.js/weights"
+        'https://cdn.jsdelivr.net/gh/justadudewhohacks/face-api.js/weights/tiny_face_detector_model-weights_manifest.json'
       );
       await faceapi.nets.faceLandmark68TinyNet.loadFromUri(
-        "https://cdn.jsdelivr.net/gh/justadudewhohacks/face-api.js/weights"
+        'https://cdn.jsdelivr.net/gh/justadudewhohacks/face-api.js/weights/face_landmark_68_tiny_model-weights_manifest.json'
       );
       setModelsLoaded(true);
     } catch (error) {
@@ -45,41 +45,21 @@ const GlassesOverlay = () => {
     img.src = URL.createObjectURL(file);
 
     img.onload = () => {
-        const maxWidth = 1200; // הגבלת רוחב התמונה
-        const maxHeight = 800; // הגבלת גובה התמונה
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext("2d");
 
-        let scale = Math.min(maxWidth / img.width, maxHeight / img.height);
+      // Use the original dimensions
+      canvas.width = img.width;
+      canvas.height = img.height;
 
-        const scaledWidth = img.width * scale;
-        const scaledHeight = img.height * scale;
+      // Clear and draw the image on the canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0, img.width, img.height);
 
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext("2d");
-
-        canvas.width = maxWidth;
-        canvas.height = maxHeight;
-
-        // חישוב החלק המרכזי של התמונה
-        const offsetX = (scaledWidth - maxWidth) / 2;
-        const offsetY = (scaledHeight - maxHeight) / 2;
-
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(
-            img,
-            offsetX > 0 ? offsetX : 0,
-            offsetY > 0 ? offsetY : 0,
-            scaledWidth,
-            scaledHeight,
-            0,
-            0,
-            canvas.width,
-            canvas.height
-        );
-
-        setFaceImage(img);
-        setGlassesPosition(null);
+      setFaceImage(img);
+      setGlassesPosition(null);
     };
-};
+  };
 
   const drawFaceWithGlasses = async () => {
     const canvas = canvasRef.current;
