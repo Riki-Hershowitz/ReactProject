@@ -1,5 +1,5 @@
 <div dir="rtl">VisionPro – חנות משקפיים אונליין </br></br>
-<img src="/demo.gif" alt="VisionPro" width="300" align="right" /></br>
+<img src="https://raw.githubusercontent.com/Riki-Hershowitz/ReactProject/main/react-project-rikih/public/demo.gif" width="300" align="right" />
 ברוכים הבאים לפרויקט VisionPro – אפליקציית חנות משקפיים אונליין שנבנתה ב-React עם Redux לניהול מצב גלובלי. </br></br>
 למה VisionPro? </br>
 VisionPro נותנת לך לנסות משקפיים על הפנים שלך – אונליין!  </br>
